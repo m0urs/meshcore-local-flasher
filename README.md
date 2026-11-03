@@ -67,6 +67,16 @@ my-firmware/
   FLASH_ERASE_nrf52_softdevice_v6.uf2                         nRF52 helper files: top level only
 ```
 
+The folder structure does not matter. You can put every file directly into the
+master folder or arrange them in any sub-folders (per model, per version, ...);
+sub-folders are scanned recursively. Only the **file names** are evaluated. The
+one exception are the nRF52 helper files (see below), which must lie in the top
+level.
+
+Keep each file only once. Files are grouped by role and the version part of
+the name, not by folder: if the same file name exists in two folders, both
+copies end up under the same version in the flasher.
+
 File names must follow the MeshCore scheme
 `<build environment>-<version>[-merged].<bin|zip|uf2>`, where the environment
 contains `companion_radio_ble|usb|wifi`, `repeater` or `room_server`. Original
