@@ -168,6 +168,32 @@ Linux). The firmware folder is stored in `local-flasher.json` relative to the
 target folder where possible; if it is not found on the other machine, run the
 script once with `--fw-dir NEW_PATH`.
 
+## Downloading the original firmware automatically
+
+`download_firmware.py` fetches the current official firmware from the GitHub
+releases of `meshcore-dev/MeshCore` into your firmware folder, so you do not
+have to click through GitHub by hand. Python 3 only, no extra packages.
+
+```
+python3 download_firmware.py --dry-run      # show what would be downloaded
+python3 download_firmware.py --refresh      # download, then rebuild the flasher's list
+python3 download_firmware.py --add heltec_v4 --role repeater    # also get a new device
+python3 download_firmware.py --list         # all devices in the newest releases
+python3 download_firmware.py --helpers      # also fetch missing nRF52 helper files
+```
+
+Run it from the folder that contains `meshcore-local-flasher` (or use
+`--fw-dir PATH`). By default it updates **the devices you already have**: it
+looks at the original files in your firmware folder (any sub folder), and for
+each one downloads the same kinds of file (`.bin`, `-merged.bin`, `.uf2`,
+`.zip`) of the newest release. Your own builds are never touched. Each file is
+checked against the size and SHA-256 checksum reported by GitHub before it is
+kept, and files that already exist are skipped. GitHub allows 60 anonymous API
+requests per hour (one to three per run); set `GITHUB_TOKEN` for more. Pre-releases are
+ignored unless you pass `--prerelease`. Run `python3 download_firmware.py` with
+no arguments only inside the folder described above; see the header of the
+script for all details.
+
 ## License
 
 MIT, see `LICENSE`. The downloaded flasher and config tool have their own
